@@ -6,6 +6,7 @@ const Todo = new mongoose.model("todo", todoSchema); // making a model based on 
 
 // get all the todos
 //best practice not mixed up async await and call back function
+// if async await used should also add try and catch block
 
 router.get("/", async (req, res) => {
   const data = await Todo.find({ status: "inactive" }).select({

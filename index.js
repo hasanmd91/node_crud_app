@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const todoHandeler = require("./Routes/todoHandeler");
+const userHandeler = require("./Routes/userHandeler");
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";
@@ -9,9 +10,8 @@ const host = process.env.HOST || "localhost";
 const app = express();
 app.use(express.json()); // using json will me the req bod as json
 
-//database connection with moongose
-
-mongoose.set("strictQuery", true);
+// database connection with moongose
+mongoose.set("strictQuery", false);
 mongoose
   .connect("mongodb://127.0.0.1/todos", {
     useNewUrlParser: true,
@@ -23,6 +23,7 @@ mongoose
 //application routes
 
 app.use("/todo", todoHandeler);
+app.use("/user", userHandeler);
 
 //default error handeler
 
