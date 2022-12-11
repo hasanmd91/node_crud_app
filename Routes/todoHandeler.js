@@ -6,7 +6,17 @@ const Todo = new mongoose.model("todo", todoSchema); // making a model based on 
 
 // get all the todos
 
-router.get("/", async (req, res) => {});
+router.get("/", async (req, res) => {
+  const data = await Todo.find({ status: "active" }); //best practice not mixed up async await and call back function
+
+  if (!data) {
+    res.status(500).json({ success: "false" });
+  } else {
+    res.status(200).json({
+      Data: data,
+    });
+  }
+});
 
 // get A todo by id
 
@@ -39,7 +49,7 @@ router.post("/all", async (req, res) => {
       });
     } else {
       res.status(200).json({
-        message: "there was a server problem",
+        message: "todos update to the database was successfull",
       });
     }
   });
@@ -47,7 +57,29 @@ router.post("/all", async (req, res) => {
 
 // put todo
 
-router.put("/:id", async (req, res) => {});
+router.put("/:id", async (req, res) => {
+  await Todo.updateOne(
+    { _id: req.params.id },
+    {
+      $set: {
+        title: "i am over updated",
+        description: "javascript",
+        status: "maybe in actice",
+      },
+    },
+    (err) => {
+      if (err) {
+        res.status(500).json({
+          error: "there was a server problem",
+        });
+      } else {
+        res.status(200).json({
+          message: "todos inserted to the database successfully",
+        });
+      }
+    }
+  );
+});
 
 // delete todo
 

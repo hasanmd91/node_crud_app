@@ -14,8 +14,8 @@ app.use(express.json()); // using json will me the req bod as json
 mongoose.set("strictQuery", true);
 mongoose
   .connect("mongodb://127.0.0.1/todos", {
-    Usenewurlparser: true,
-    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: false,
   })
   .then(() => console.log("connection succesfull"))
   .catch((err) => console.log(err));
