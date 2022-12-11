@@ -8,7 +8,11 @@ const Todo = new mongoose.model("todo", todoSchema); // making a model based on 
 //best practice not mixed up async await and call back function
 
 router.get("/", async (req, res) => {
-  const data = await Todo.find({ status: "active" });
+  const data = await Todo.find({ status: "inactive" }).select({
+    _id: 0,
+    description: 0,
+    title: 0,
+  });
   if (!data) {
     res.status(500).json({ success: "false" });
   } else {
