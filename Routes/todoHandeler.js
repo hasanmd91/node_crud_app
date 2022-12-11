@@ -5,10 +5,10 @@ const todoSchema = require("../schemas/todoSchema"); // creating schema
 const Todo = new mongoose.model("todo", todoSchema); // making a model based on that schema and object data maping
 
 // get all the todos
+//best practice not mixed up async await and call back function
 
 router.get("/", async (req, res) => {
-  const data = await Todo.find({ status: "active" }); //best practice not mixed up async await and call back function
-
+  const data = await Todo.find({ status: "active" });
   if (!data) {
     res.status(500).json({ success: "false" });
   } else {
@@ -19,8 +19,18 @@ router.get("/", async (req, res) => {
 });
 
 // get A todo by id
+//best practice not mixed up async await and call back function
+router.get("/:id", async (req, res) => {
+  const data = await Todo.find({ _id: req.params.id });
 
-router.get("/:id", async (req, res) => {});
+  if (!data) {
+    res.status(500).json({ success: "false" });
+  } else {
+    res.status(200).json({
+      Data: data,
+    });
+  }
+});
 
 // post a todo
 
@@ -83,6 +93,14 @@ router.put("/:id", async (req, res) => {
 
 // delete todo
 
-router.delete("/:id", async (req, res) => {});
-
+router.delete("/", async (req, res) => {
+  const data = await Todo.deleteMany({ status: "active" });
+  if (!data) {
+    res.status(500).json({ success: "false" });
+  } else {
+    res.status(200).json({
+      Data: data,
+    });
+  }
+});
 module.exports = router;
