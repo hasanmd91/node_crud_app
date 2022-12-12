@@ -41,6 +41,16 @@ router.post("/login", async (req, res) => {
 
       if (isValidPassword) {
         //generate token
+
+        const token = jwt.sign({
+          username: 
+
+
+        })
+
+
+
+
         // res.status(200).json({
         // messgae: "login sucessfull",
         // });
