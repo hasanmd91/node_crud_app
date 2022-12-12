@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const env = require("dotenv");
 const todoHandeler = require("./Routes/todoHandeler");
 const userHandeler = require("./Routes/userHandeler");
 
@@ -8,6 +9,7 @@ const host = process.env.HOST || "localhost";
 
 // express app initialization
 const app = express();
+env.config();
 app.use(express.json()); // using json will me the req bod as json
 
 // database connection with moongose

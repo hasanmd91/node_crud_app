@@ -42,27 +42,28 @@ router.post("/login", async (req, res) => {
       if (isValidPassword) {
         //generate token
 
-        const token = jwt.sign({
-          username: 
+        const token = jwt.sign(
+          {
+            username: user[0].username,
+            userId: user[0]._id,
+          },
+          process.env.JWT_SECTRET,
+          { expiresIn: "1h" }
+        );
 
-
-        })
-
-
-
-
-        // res.status(200).json({
-        // messgae: "login sucessfull",
-        // });
+        res.status(200).json({
+          access_token: token,
+          messgae: "login sucessfull",
+        });
       } else {
-        res.status(500).json({
-          error: "login unsucessfull",
+        res.status(401).json({
+          error: "Authentication failed ",
         });
       }
     }
   } catch {
-    res.status(500).json({
-      error: "login unsucessfull",
+    res.status(401).json({
+      error: "Authentication failed ",
     });
   }
 });
