@@ -36,8 +36,15 @@ todo.save();
 ## Bcrypt
 
 - auto-gen a salt and hash
-- jwt json web token
+- To check a password compare method
 
 ```javascript
 bcrypt.hash(myPlaintextPassword, saltRounds, function (err, hash) {});
+// Load hash from your password DB.
+bcrypt.compare(myPlaintextPassword, hash, function (err, result) {
+  // result == true
+});
+bcrypt.compare(someOtherPlaintextPassword, hash, function (err, result) {
+  // result == false
+});
 ```

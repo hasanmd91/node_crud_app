@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const userSchema = require("../schemas/userSchema");
@@ -22,6 +23,36 @@ router.post("/signup", async (req, res) => {
   } catch {
     res.status(200).json({
       error: "server error",
+    });
+  }
+});
+
+// login
+
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.find({ username: req.body.username });
+    console.log(user);
+    if (user && user.length > 0) {
+      const isValidPassword = await bcrypt.compare(
+        req.body.password,
+        user[0].password
+      );
+
+      if (isValidPassword) {
+        //generate token
+        // res.status(200).json({
+        // messgae: "login sucessfull",
+        // });
+      } else {
+        res.status(500).json({
+          error: "login unsucessfull",
+        });
+      }
+    }
+  } catch {
+    res.status(500).json({
+      error: "login unsucessfull",
     });
   }
 });
