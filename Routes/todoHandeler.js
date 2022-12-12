@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
+const checkLogin = require("../middlewares/checklogin");
 const todoSchema = require("../schemas/todoSchema"); // creating schema
 const Todo = new mongoose.model("todo", todoSchema); // making a model based on that schema and object data maping
 
@@ -8,11 +9,9 @@ const Todo = new mongoose.model("todo", todoSchema); // making a model based on 
 //best practice not mixed up async await and call back function
 // if async await used should also add try and catch block
 
-router.get("/", async (req, res) => {
+router.get("/", checkLogin, async (req, res) => {
   const data = await Todo.find({ status: "inactive" }).select({
     _id: 0,
-    description: 0,
-    title: 0,
   });
   if (!data) {
     res.status(500).json({ success: "false" });
